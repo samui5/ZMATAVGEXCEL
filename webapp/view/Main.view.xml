@@ -1,0 +1,79 @@
+<mvc:View controllerName="mat.coll.avg.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:u="sap.ui.unified" displayBlock="true" xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:viz="sap.viz.ui5.controls"
+     xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data">
+	<App>
+		<pages>
+			<Page title="{i18n>title}">
+				<content>
+					<FlexBox renderType="Bare">
+						<FlexBox class="columns" width="70%" renderType="Bare">
+							<f:SimpleForm id="SimpleFormToolbar" editable="true" ariaLabelledBy="New Inquiry">
+								<f:content>
+									<Label text="Material"/>
+									<Input id="Material" value="{local>/matdata/Material}" showValueHelp="true" valueHelpOnly="true"
+									valueHelpRequest="onValueHelp"
+									/>
+									<Label text="Location"/>
+									<Input id="Location" value="{local>/matdata/Location}" showValueHelp="true" valueHelpOnly="true"
+									valueHelpRequest="onValueHelp"/>
+								</f:content>
+							</f:SimpleForm>
+						</FlexBox>
+						<FlexBox direction="RowReverse" alignItems="Center">
+							<viz:VizFrame id="idVizFrame" width="300px" height="250px" uiConfig="{applicationSet:'fiori'}" vizType="donut">
+								<viz:dataset>
+									<viz.data:FlattenedDataset data="{local>/data}">
+										<viz.data:dimensions>
+											<viz.data:DimensionDefinition name="Material" value="{local>Material}"/>
+										</viz.data:dimensions>
+										<viz.data:measures>
+											<viz.data:MeasureDefinition name="Avg. Price" value="{local>Avgcost}"/>
+										</viz.data:measures>
+									</viz.data:FlattenedDataset>
+								</viz:dataset>
+								<viz:feeds>
+									<viz.feeds:FeedItem uid="size" type="Measure" values="Avg. Price"/>
+									<viz.feeds:FeedItem uid="color" type="Dimension" values="Material"/>
+								</viz:feeds>
+							</viz:VizFrame>
+						</FlexBox>
+					</FlexBox>
+					<Table id="idTable" width="auto" class="sapUiResponsiveMargin" 
+					noDataText="{worklistView>/tableNoDataText}" items="{local>/data}">
+						<headerToolbar>
+							<Toolbar>
+								<Title id="idTopTitle" text="Average Prices"/>
+								<ToolbarSpacer/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column id="idTopName">
+								<Text text="Location"/>
+							</Column>
+							<Column id="idPrice">
+								<Text text="Materials"/>
+							</Column>
+							<Column id="idAvgCost">
+								<Text text="Average Cost"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{local>Location}"></Text>
+									<Text text="{local>Material}"></Text>
+									<Text text="{local>Avgcost}"></Text>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+					</Toolbar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
